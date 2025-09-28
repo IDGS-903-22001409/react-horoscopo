@@ -1,29 +1,113 @@
 .ReloadPrompt-container {
-  padding: 0;
-  margin: 0;
-  width: 0;
-  height: 0;
-}
-.ReloadPrompt-toast {
   position: fixed;
-  right: 0;
   bottom: 0;
-  margin: 16px;
-  padding: 12px;
-  border: 1px solid #8885;
-  border-radius: 4px;
-  z-index: 1;
-  text-align: left;
-  box-shadow: 3px 4px 5px 0 #8885;
-  background-color: white;
+  right: 0;
+  z-index: 1000;
+  padding: 1rem;
+  pointer-events: none;
 }
-.ReloadPrompt-toast-message {
-  margin-bottom: 8px;
+
+.ReloadPrompt-toast {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: blur(10px);
+  max-width: 320px;
+  pointer-events: auto;
+  animation: slide-in 0.3s ease-out;
 }
-.ReloadPrompt-toast-button {
-  border: 1px solid #8885;
+
+.ReloadPrompt-message {
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.ReloadPrompt-buttons {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.ReloadPrompt-button {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.ReloadPrompt-button--primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.ReloadPrompt-button--primary:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+.ReloadPrompt-button--secondary {
+  background-color: transparent;
+  color: var(--text-secondary);
+  border-color: var(--border-color);
+}
+
+.ReloadPrompt-button--secondary:hover {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.ReloadPrompt-button:focus {
   outline: none;
-  margin-right: 5px;
-  border-radius: 2px;
-  padding: 3px 10px;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+}
+
+.ReloadPrompt-icon {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+
+/* Animaciones */
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .ReloadPrompt-container {
+    left: 0;
+    right: 0;
+    padding: 1rem;
+  }
+
+  .ReloadPrompt-toast {
+    max-width: none;
+    margin: 0;
+  }
+
+  .ReloadPrompt-buttons {
+    justify-content: stretch;
+  }
+
+  .ReloadPrompt-button {
+    flex: 1;
+  }
 }

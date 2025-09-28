@@ -1,6 +1,5 @@
 import React from "react";
 import "./ReloadPrompt.css";
-
 import { useRegisterSW } from "virtual:pwa-register/react";
 
 function ReloadPrompt() {
@@ -10,11 +9,10 @@ function ReloadPrompt() {
     updateServiceWorker,
   } = useRegisterSW({
     onRegistered(r) {
-      // eslint-disable-next-line prefer-template
-      console.log("SW Registered: " + r);
+      console.log("✅ Service Worker registrado:", r);
     },
     onRegisterError(error) {
-      console.log("SW registration error", error);
+      console.error("❌ Error al registrar Service Worker:", error);
     },
   });
 
@@ -23,32 +21,50 @@ function ReloadPrompt() {
     setNeedRefresh(false);
   };
 
+  const reload = () => {
+    updateServiceWorker(true);
+  };
+
+  if (!offlineReady && !needRefresh) {
+    return null;
+  }
+
   return (
     <div className="ReloadPrompt-container">
-      {(offlineReady || needRefresh) && (
-        <div className="ReloadPrompt-toast">
-          <div className="ReloadPrompt-message">
-            {offlineReady ? (
-              <span>App ready to work offline</span>
-            ) : (
-              <span>
-                New content available, click on reload button to update.
-              </span>
-            )}
-          </div>
+      <div className="ReloadPrompt-toast">
+        <div className="ReloadPrompt-message">
+          {offlineReady ? (
+            <>
+              <span className="ReloadPrompt-icon">🔌</span>
+              App lista para funcionar sin conexión
+            </>
+          ) : (
+            <>
+              <span className="ReloadPrompt-icon">🆕</span>
+              Nuevo contenido disponible. Haz clic en recargar para actualizar.
+            </>
+          )}
+        </div>
+
+        <div className="ReloadPrompt-buttons">
           {needRefresh && (
             <button
-              className="ReloadPrompt-toast-button"
-              onClick={() => updateServiceWorker(true)}
+              className="ReloadPrompt-button ReloadPrompt-button--primary"
+              onClick={reload}
+              aria-label="Recargar la aplicación para obtener la última versión"
             >
-              Reload
+              Recargar
             </button>
           )}
-          <button className="ReloadPrompt-toast-button" onClick={() => close()}>
-            Close
+          <button
+            className="ReloadPrompt-button ReloadPrompt-button--secondary"
+            onClick={close}
+            aria-label="Cerrar notificación"
+          >
+            Cerrar
           </button>
         </div>
-      )}
+      </div>
     </div>
   );
 }
